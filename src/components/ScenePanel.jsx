@@ -79,6 +79,7 @@ export default function ScenePanel({ day }) {
   const [aktif, setAktif] = useState(null)
   const [mode, setMode] = useState('3d')
   const [dibuka, setDibuka] = useState(false)
+  const [daftarBuka, setDaftarBuka] = useState(true)
   const [webgl, setWebgl] = useState(true)
   const [exploded, setExploded] = useState(false)
   const sudahCek = useRef(false)
@@ -168,7 +169,11 @@ export default function ScenePanel({ day }) {
         Ilustrasi 3D generik, bukan foto produk asli. Nomor titik mengikuti daftar komponen di bawah.
       </p>
 
-      <details className="daftar-komponen" open={!komponenAktif ? true : undefined}>
+      <details
+        className="daftar-komponen"
+        open={daftarBuka}
+        onToggle={(e) => setDaftarBuka(e.currentTarget.open)}
+      >
         <summary>
           Daftar komponen — <em>{day.labelKomponen}</em>
         </summary>

@@ -82,6 +82,18 @@ class Klien {
   async teks() {
     return this.evaluate('document.body.innerText')
   }
+  async tungguSampai(ekspresi, batasMs = 8000) {
+    const mulai = Date.now()
+    while (Date.now() - mulai < batasMs) {
+      try {
+        if (await this.evaluate(ekspresi)) return true
+      } catch {
+        /* halaman masih transisi */
+      }
+      await new Promise((r) => setTimeout(r, 120))
+    }
+    return false
+  }
   async teksKecil() {
     return this.evaluate('document.body.innerText.toLowerCase()')
   }
@@ -132,6 +144,18 @@ async function main() {
   const detailAda = await cdp.evaluate("!!document.querySelector('.panel-detail h3')")
   cek('Hari 1: klik hotspot membuka panel detail', detailAda === true)
 
+  // Klik kartu komponen tidak boleh menutup daftar / menghilangkan fokus keyboard
+  const fokusKartu = await cdp.evaluate(`(() => {
+    const kartu = document.querySelectorAll('.komponen-kartu')[1];
+    if (!kartu) return 'tidak-ada';
+    kartu.focus();
+    kartu.click();
+    const buka = document.querySelector('.daftar-komponen')?.open;
+    const aktif = document.activeElement?.className || '';
+    return buka && aktif.includes('komponen-kartu') ? 'ok' : 'gagal: open=' + buka + ' fokus=' + aktif;
+  })()`)
+  cek('Hari 1: kartu komponen tetap terbuka & fokus tidak hilang', fokusKartu === 'ok', fokusKartu)
+
   // 3. Toggle 2D
   await cdp.klik('2D', { selector: '.sakelar button' })
   await tidur(300)
@@ -150,6 +174,7 @@ async function main() {
 
   // 5. Kuis Hari 1 dari awal sampai akhir
   await cdp.muat('/hari/1?bagian=kuis')
+  await cdp.tungguSampai("!!document.querySelector('.kuis-soal')")
   let selesaiKuis = false
   for (let i = 0; i < 12; i++) {
     const sudah = (await cdp.teksKecil()).includes('hasil kuis')
@@ -178,6 +203,8 @@ async function main() {
 
   // 6. Game mencocokkan
   await cdp.muat('/hari/1?bagian=praktik')
+  const siapGame = await cdp.tungguSampai("document.querySelectorAll('.game-kartu').length === 18")
+  cek('Game: papan siap dimuat', siapGame)
   const kartuGame = await cdp.evaluate("document.querySelectorAll('.game-kartu').length")
   cek('Game: 18 kartu (9 komponen + 9 fungsi)', kartuGame === 18, `ditemukan ${kartuGame}`)
   // cocokkan semua pasangan berdasarkan urutan teks yang sama id -> pakai data: klik kiri "Layar" lalu fungsi "Menampilkan gambar"
@@ -206,7 +233,7 @@ async function main() {
     await tidur(150)
   }
   // sisa pasangan diklik lewat pencocokan id di DOM (data tidak diekspos, jadi klik berpasangan berurutan)
-  const statusGame = await cdp.evaluate("document.querySelector('.game-status').textContent")
+  const statusGame = (await cdp.evaluate("document.querySelector('.game-status')?.textContent || ''"))
   cek(
     'Game: 9 pasangan bisa dicocokkan sampai selesai',
     /9 dari 9 pasangan cocok/.test(statusGame) || /^Selesai/.test(statusGame),
@@ -225,6 +252,7 @@ async function main() {
 
   // 8. Hari 3: urutkan tahap
   await cdp.muat('/hari/3?bagian=praktik')
+  await cdp.tungguSampai("document.querySelectorAll('.kartu-tahap').length === 8")
   const urutanBenar = ['Sapa', 'Gali kebutuhan', 'Konfirmasi', 'Rekomendasikan', 'Jelaskan manfaat', 'Tanggapi keberatan', 'Closing', 'Tindak lanjuti']
   const adaKartu = await cdp.evaluate("document.querySelectorAll('.kartu-tahap').length")
   cek('Hari 3: 8 kartu tahap', adaKartu === 8, `ditemukan ${adaKartu}`)

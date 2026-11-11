@@ -191,9 +191,9 @@ export default function PhoneScene({
     const matRangka = new THREE.MeshStandardMaterial({ color: '#9aa7bd', metalness: 0.85, roughness: 0.28 })
     const matGelap = new THREE.MeshStandardMaterial({ color: '#101825', metalness: 0.4, roughness: 0.65 })
     const matLayar = new THREE.MeshStandardMaterial({
-      color: '#081226',
-      emissive: new THREE.Color('#2563eb'),
-      emissiveIntensity: 0.55,
+      color: '#0b1626',
+      emissive: new THREE.Color('#1e40af'),
+      emissiveIntensity: 0.22,
       metalness: 0.1,
       roughness: 0.22,
     })
@@ -442,7 +442,7 @@ export default function PhoneScene({
     }
 
     aturUkuran()
-    kamera.position.set(0, 0.4, 5.6)
+    kamera.position.set(0, 0.4, 5.0)
     pasangKamera(true)
 
     const ro = new ResizeObserver(() => {

@@ -93,7 +93,7 @@ export const hpKasus = [
   {
     id: 'hp-konten',
     judul: 'Jualan online dan bikin konten',
-    isi: 'Customer jualan online, sering foto dan rekam video produk di rumah.',
+    isi: 'Customer jualan online dan bikin konten. Kondisi cahaya saat memotret barang, seberapa sering merekam, dan kebutuhan penyimpanan belum jelas.',
     tanya: [
       'Foto produknya diambil di kondisi cahaya seperti apa?',
       'Seberapa sering merekam video?',

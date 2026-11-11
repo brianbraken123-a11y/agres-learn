@@ -117,7 +117,7 @@ export const laptopKasus = [
   {
     id: 'kasus-mahasiswa',
     judul: 'Mahasiswa sering video call sambil buka dokumen',
-    isi: 'Customer kuliah online, suka video call sambil buka materi. Laptop juga sering dibawa ke kampus.',
+    isi: 'Mahasiswa sering video call sambil buka dokumen. Aplikasi kuliah yang dipakai, kebiasaan multitasking, dan apakah laptop sering dibawa belum jelas.',
     tanya: [
       'Aplikasi kuliah apa yang paling sering dipakai?',
       'Biasanya berapa aplikasi terbuka bersamaan?',

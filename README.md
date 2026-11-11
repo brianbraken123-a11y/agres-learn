@@ -34,6 +34,8 @@ Fitur lain:
 
 ## Menjalankan lokal
 
+Butuh **Node 22** (Vite 7 mensyaratkan `^20.19.0 || >=22.12.0`, dan `qa.mjs` memakai `WebSocket` global yang baru ada di Node ≥ 22).
+
 ```bash
 npm ci          # pasang dependency sesuai package-lock.json
 npm run dev     # server pengembangan
@@ -47,15 +49,22 @@ npm run preview # cek hasil build
 
 `qa.mjs` menjalankan pengujian end-to-end lewat Chrome DevTools Protocol: alur kuis sampai hasil,
 game mencocokkan 9 pasangan, urutan 8 tahap, simulasi chat sampai selesai, timer, progres setelah reload,
-tampilan 2D, dan pemeriksaan overflow horizontal di lebar 390px.
+tampilan 2D, panel komponen (fokus keyboard), dan pemeriksaan overflow horizontal di lebar 390px.
 
 ```bash
 npm run build
 npx vite preview --port 4173 &
-"/c/Program Files/Google/Chrome/Application/chrome.exe" --headless=new \
-  --remote-debugging-port=9333 --user-data-dir=/tmp/cprof-qa about:blank &
+
+# Chrome headless dengan remote debugging (path native Windows untuk --user-data-dir)
+"C:/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --no-first-run \
+  --remote-debugging-port=9333 --user-data-dir="C:/Users/<nama>/AppData/Local/Temp/cprof-qa" about:blank &
+
 node qa.mjs http://localhost:4173 9333
 ```
+
+Catatan: skrip ini menempel ke **tab page pertama** yang terbuka di Chrome tersebut, jadi jalankan Chrome
+khusus uji (profil terpisah) supaya tidak menabrak tab lain. Kalau ada pemeriksaan gagal karena halaman
+belum selesai dimuat, jalankan ulang — skrip menunggu selektor penting, tapi headless pertama kadang lambat.
 
 ## Deploy ke Cloudflare Pages
 
@@ -67,7 +76,7 @@ node qa.mjs http://localhost:4173 9333
    - **Build command**: `npm run build`
    - **Build output directory**: `dist`
    - **Root directory**: `/`
-   - Environment variable: `NODE_VERSION=22` (opsional, kalau versi default Cloudflare terlalu lama)
+   - Environment variable: `NODE_VERSION=22` — **wajib**, karena Vite 7 tidak jalan di Node 18/20 lama
 4. Deploy. `public/_redirects` berisi `/* /index.html 200` supaya `/hari/1` dan `/review` bisa dibuka
    langsung dan tidak 404 setelah reload.
 
