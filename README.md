@@ -30,7 +30,7 @@ Fitur lain:
 
 - Vite + React 19 (JavaScript, tanpa backend, output statis)
 - three.js untuk scene 3D (tanpa `@react-three/fiber`)
-- react-router-dom (BrowserRouter + `public/_redirects` untuk SPA fallback)
+- react-router-dom (BrowserRouter; SPA fallback diserahkan ke hosting — `not_found_handling` di Worker)
 
 ## Menjalankan lokal
 
@@ -66,19 +66,27 @@ Catatan: skrip ini menempel ke **tab page pertama** yang terbuka di Chrome terse
 khusus uji (profil terpisah) supaya tidak menabrak tab lain. Kalau ada pemeriksaan gagal karena halaman
 belum selesai dimuat, jalankan ulang — skrip menunggu selektor penting, tapi headless pertama kadang lambat.
 
-## Deploy ke Cloudflare Pages
+## Deploy
 
-1. Push repo ini ke GitHub (branch produksi: `main`).
-2. Cloudflare Dashboard → **Workers & Pages → Create → Pages → Connect to Git** → pilih repo.
-3. Isi konfigurasi build:
-   - **Production branch**: `main`
-   - **Framework preset**: Vite (atau None)
-   - **Build command**: `npm run build`
-   - **Build output directory**: `dist`
-   - **Root directory**: `/`
-   - Environment variable: `NODE_VERSION=22` — **wajib**, karena Vite 7 tidak jalan di Node 18/20 lama
-4. Deploy. `public/_redirects` berisi `/* /index.html 200` supaya `/hari/1` dan `/review` bisa dibuka
-   langsung dan tidak 404 setelah reload.
+Repo sudah terpasang di Cloudflare **Workers Builds** (bukan Pages): setiap push ke `main`, Cloudflare
+menjalankan `npm run build` lalu `npx wrangler deploy` dengan `dist` sebagai aset statis.
+
+Konfigurasi yang dipakai:
+
+- **Production branch**: `main`
+- **Build command**: `npm run build`
+- **Deploy command**: `npx wrangler deploy`
+- **Output directory**: `dist`
+- Environment variable `NODE_VERSION=22` (Vite 7 tidak jalan di Node 18/20 lama)
+
+**Penting soal SPA fallback.** Jangan menaruh `public/_redirects` berisi `/* /index.html 200` di proyek ini.
+Worker menolaknya saat deploy dengan error *"Infinite loop detected in this rule"* (`code: 100324`) karena
+aturan itu memutar ulang rewrite ke `/index.html` terus-menerus dengan `not_found_handling:
+"single-page-application"` yang sudah aktif. Fallback SPA sudah ditangani Cloudflare sendiri, jadi
+`/hari/1` dan `/review` tetap bisa dibuka langsung dan setelah reload tanpa file `_redirects`.
+
+Kalau memakai **Cloudflare Pages** sebagai gantinya: Connect to Git → branch `main`, build command
+`npm run build`, output directory `dist`, lalu set *SPA fallback* ke `/index.html` di pengaturan Pages.
 
 ## Struktur
 
@@ -93,7 +101,6 @@ src/
   three/          LaptopScene.jsx · PhoneScene.jsx (three.js, lazy-loaded)
   hooks/          useProgress.js (localStorage)
   styles/         tokens.css · app.css
-public/_redirects
 qa.mjs            pengujian end-to-end via CDP
 docs/DESIGN.md    spesifikasi desain & aksesibilitas
 ```
