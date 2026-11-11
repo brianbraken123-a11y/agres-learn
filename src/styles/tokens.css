@@ -1,0 +1,267 @@
+/* =========================================================================
+   AGRES.ID Learn — Design Tokens
+   Satu-satunya sumber nilai desain (warna, spacing, tipografi, radius,
+   shadow, animasi, token 3D). File ini HANYA berisi custom property.
+   Tidak ada selector elemen global (body/h1/...) di sini — aturan tersebut
+   milik stylesheet utama. Tema default = GELAP karena scene 3D-nya gelap.
+   ========================================================================= */
+
+:root {
+  /* ---------- Palet dasar (permukaan) ---------- */
+  --color-bg: #0b1220;              /* kanvas utama, sama dgn meta theme-color */
+  --color-bg-subtle: #0e1626;       /* section bergantian */
+  --color-surface: #111a2b;         /* kartu */
+  --color-surface-2: #17233a;       /* kartu di atas kartu / input */
+  --color-surface-3: #1f2d47;       /* hover, chip aktif */
+  --color-overlay: rgba(5, 9, 17, 0.72);
+  --color-border: rgba(148, 170, 205, 0.16);
+  --color-border-strong: rgba(148, 170, 205, 0.34);
+  --color-focus-ring: #7dd3fc;
+
+  /* ---------- Aksen ---------- */
+  --color-accent: #38bdf8;          /* aksen utama (cyan) */
+  --color-accent-hover: #5cc9fa;
+  --color-accent-active: #1ea6e0;
+  --color-accent-soft: rgba(56, 189, 248, 0.14);
+  --color-accent-contrast: #04121f; /* teks di atas aksen */
+  --color-accent-2: #a78bfa;        /* aksen sekunder (violet) */
+  --color-accent-2-hover: #b9a3fb;
+  --color-accent-2-soft: rgba(167, 139, 250, 0.15);
+  --color-accent-2-contrast: #140b26;
+
+  /* ---------- Warna per hari (kartu modul) ---------- */
+  --color-day-1: #38bdf8;           /* Hari 1 — laptop */
+  --color-day-1-soft: rgba(56, 189, 248, 0.14);
+  --color-day-2: #34d399;           /* Hari 2 — smartphone */
+  --color-day-2-soft: rgba(52, 211, 153, 0.14);
+  --color-day-3: #fbbf24;           /* Hari 3 — pelayanan */
+  --color-day-3-soft: rgba(251, 191, 36, 0.14);
+
+  /* ---------- Status ---------- */
+  --color-success: #34d399;
+  --color-success-soft: rgba(52, 211, 153, 0.14);
+  --color-warning: #fbbf24;
+  --color-warning-soft: rgba(251, 191, 36, 0.14);
+  --color-danger: #f87171;
+  --color-danger-soft: rgba(248, 113, 113, 0.14);
+  --color-info: #7dd3fc;
+  --color-info-soft: rgba(125, 211, 252, 0.14);
+
+  /* ---------- Teks (kontras AA di atas --color-bg) ---------- */
+  --color-text: #eaf1fb;            /* 16.5:1 di atas --color-bg */
+  --color-text-secondary: #b7c4d8;  /* 10.6:1 */
+  --color-text-muted: #8c9bb2;      /* 6.6:1 */
+  --color-text-disabled: #5b6b82;   /* hanya untuk state nonaktif */
+  --color-text-on-accent: #04121f;
+  --color-text-on-danger: #2a0a0a;
+
+  /* ---------- Spacing (skala 4/8/12/16/24/32/48) ---------- */
+  --space-3xs: 2px;
+  --space-2xs: 4px;                 /* 4 */
+  --space-xs: 8px;                  /* 8 */
+  --space-sm: 12px;                 /* 12 */
+  --space-md: 16px;                 /* 16 */
+  --space-lg: 24px;                 /* 24 */
+  --space-xl: 32px;                 /* 32 */
+  --space-2xl: 48px;                /* 48 */
+  --space-3xl: 64px;                /* 64 */
+  --space-4xl: 96px;                /* 96 */
+
+  /* ---------- Radius ---------- */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+  --radius-circle: 50%;
+
+  /* ---------- Shadow ---------- */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.34);
+  --shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.46);
+  --shadow-sheet: 0 -12px 40px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 0 1px rgba(56, 189, 248, 0.4), 0 8px 32px rgba(56, 189, 248, 0.18);
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  /* ---------- Tipografi ---------- */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas,
+    "Liberation Mono", monospace;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.7;
+
+  --tracking-tight: -0.015em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-caps: 0.08em;
+
+  /* Skala tipografi responsif (HP 360px -> desktop) */
+  --text-display: clamp(2rem, 1.35rem + 3.4vw, 3.25rem);      /* 32 -> 52 */
+  --text-h1: clamp(1.625rem, 1.25rem + 2vw, 2.5rem);          /* 26 -> 40 */
+  --text-h2: clamp(1.3125rem, 1.1rem + 1.2vw, 1.75rem);       /* 21 -> 28 */
+  --text-h3: clamp(1.125rem, 1.03rem + 0.55vw, 1.375rem);     /* 18 -> 22 */
+  --text-h4: 1.0625rem;                                        /* 17 */
+  --text-body: 1rem;                                           /* 16 */
+  --text-body-sm: 0.9375rem;                                   /* 15 */
+  --text-small: 0.875rem;                                      /* 14 */
+  --text-caption: 0.75rem;                                     /* 12 */
+  --text-micro: 0.6875rem;                                     /* 11 */
+
+  /* ---------- Durasi & easing ---------- */
+  --dur-instant: 0ms;
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 300ms;                /* batas atas transisi UI */
+  --dur-3d: 600ms;                  /* kamera / highlight scene 3D */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --ease-linear: linear;
+  --delay-stagger: 40ms;            /* jeda antar item list/grid */
+
+  /* ---------- Layout ---------- */
+  --container-max: 1180px;
+  --container-narrow: 720px;
+  --page-gutter: clamp(16px, 4vw, 40px);
+  --grid-gap: clamp(12px, 2vw, 24px);
+  --header-h: 64px;
+  --tabbar-h: 56px;
+  --side-panel-w: 360px;
+  --sheet-max-h: 82dvh;
+  --touch-target: 44px;             /* minimum area sentuh */
+  --touch-gap: 8px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+
+  /* ---------- Z-index ---------- */
+  --z-base: 0;
+  --z-raised: 5;
+  --z-sticky: 10;
+  --z-header: 20;
+  --z-backdrop: 40;
+  --z-sheet: 50;
+  --z-toast: 60;
+
+  /* ---------- Token scene 3D ---------- */
+  --scene-bg-start: #0a101c;
+  --scene-bg-end: #060a13;
+  --scene-floor: #0d1524;
+  --scene-fog: #080d17;
+  --scene-grid: rgba(56, 189, 248, 0.08);
+  --mat-metal: #b9c4d4;             /* bodi aluminium laptop */
+  --mat-metal-dark: #6d7a8d;
+  --mat-plastic: #2b3444;           /* bodi plastik / karet */
+  --mat-plastic-light: #3d4859;
+  --mat-glass: #0f2233;             /* layar mati */
+  --mat-glass-emissive: #16324a;
+  --mat-accent: #38bdf8;            /* bagian ditandai / highlight komponen */
+  --light-key-intensity: 1.15;      /* directional key light */
+  --light-fill-intensity: 0.45;
+  --light-rim-color: #5b8fd6;
+
+  /* Hotspot 3D */
+  --hotspot: rgba(234, 241, 251, 0.85);      /* titik pasif */
+  --hotspot-core: #eaf1fb;
+  --hotspot-active: #38bdf8;                  /* titik terpilih */
+  --hotspot-active-core: #bae6fd;
+  --hotspot-ring: rgba(56, 189, 248, 0.45);
+  --hotspot-halo: rgba(56, 189, 248, 0.22);
+  --hotspot-visited: #34d399;                 /* sudah dibuka */
+  --hotspot-visited-soft: rgba(52, 211, 153, 0.2);
+  --hotspot-size: 14px;                       /* diameter visual */
+  --hotspot-hit: 44px;                        /* area klik tak terlihat */
+  --hotspot-label-bg: rgba(11, 18, 32, 0.9);
+  --hotspot-label-text: #eaf1fb;
+
+  /* ---------- Chart / progress ---------- */
+  --ring-track: rgba(148, 170, 205, 0.18);
+  --ring-fill: #38bdf8;
+  --ring-stroke: 10;                /* viewBox unit, bukan px */
+  --progress-h: 8px;
+}
+
+/* =========================================================================
+   Tema terang — opsional. Scene 3D tetap gelap; panel/kartu ikut terang.
+   Aktifkan lewat <html data-theme="light">.
+   ========================================================================= */
+[data-theme="light"] {
+  --color-bg: #f6f8fc;
+  --color-bg-subtle: #eef2f9;
+  --color-surface: #ffffff;
+  --color-surface-2: #f2f6fc;
+  --color-surface-3: #e6edf8;
+  --color-overlay: rgba(15, 23, 42, 0.42);
+  --color-border: rgba(15, 23, 42, 0.12);
+  --color-border-strong: rgba(15, 23, 42, 0.24);
+  --color-focus-ring: #0369a1;
+
+  --color-accent: #0369a1;          /* 5.9:1 dgn teks putih; teks aksen 5.6:1 */
+  --color-accent-hover: #075985;
+  --color-accent-active: #0c4a6e;
+  --color-accent-soft: rgba(3, 105, 161, 0.1);
+  --color-accent-contrast: #ffffff;
+  --color-accent-2: #7c3aed;
+  --color-accent-2-soft: rgba(124, 58, 237, 0.1);
+  --color-accent-2-contrast: #ffffff;
+
+  --color-day-1: #0369a1;
+  --color-day-1-soft: rgba(3, 105, 161, 0.1);
+  --color-day-2: #047857;
+  --color-day-2-soft: rgba(4, 120, 87, 0.1);
+  --color-day-3: #b45309;
+  --color-day-3-soft: rgba(180, 83, 9, 0.1);
+
+  --color-success: #047857;
+  --color-success-soft: rgba(4, 120, 87, 0.1);
+  --color-warning: #b45309;
+  --color-warning-soft: rgba(180, 83, 9, 0.1);
+  --color-danger: #b91c1c;
+  --color-danger-soft: rgba(185, 28, 28, 0.1);
+  --color-info: #0369a1;
+  --color-info-soft: rgba(3, 105, 161, 0.1);
+
+  --color-text: #0f172a;
+  --color-text-secondary: #334155;
+  --color-text-muted: #52627a;
+  --color-text-disabled: #94a3b8;
+  --color-text-on-accent: #ffffff;
+
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 6px 18px rgba(15, 23, 42, 0.1);
+  --shadow-lg: 0 18px 48px rgba(15, 23, 42, 0.16);
+  --shadow-sheet: 0 -12px 40px rgba(15, 23, 42, 0.18);
+  --shadow-glow: 0 0 0 1px rgba(3, 105, 161, 0.35), 0 8px 28px rgba(3, 105, 161, 0.16);
+
+  --ring-track: rgba(15, 23, 42, 0.12);
+  --ring-fill: #0369a1;
+}
+
+/* =========================================================================
+   Prefers-reduced-motion: nolkan token durasi (bukan mematikan selector).
+   Semua komponen yang memakai token ini otomatis berhenti beranimasi.
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-instant: 0ms;
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+    --dur-3d: 0ms;
+    --delay-stagger: 0ms;
+    --ease-out: linear;
+    --ease-in-out: linear;
+    --ease-spring: linear;
+  }
+}
